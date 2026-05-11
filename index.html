@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HPS Asphalt Tonnage Calculator</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f3f3f3;
+      color: #222;
+    }
+
+    header {
+      background-color: #ffffff;
+      border-bottom: 5px solid #ffd91a;
+      padding: 14px 24px;
+    }
+
+    .header-content {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .header-text {
+      text-align: left;
+    }
+
+    .logo {
+      width: 170px;
+      height: auto;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    h1 {
+      margin: 0;
+      color: #d52027;
+      font-size: 2.2rem;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      max-width: 620px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    main {
+      max-width: 760px;
+      margin: 18px auto 28px;
+      padding: 0 18px;
+    }
+
+    section {
+      background-color: #ffffff;
+      padding: 26px;
+      border-radius: 8px;
+      border-top: 6px solid #d52027;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      margin: 26px 0 10px;
+      color: #222;
+      font-size: 1.25rem;
+    }
+
+    h2:first-child {
+      margin-top: 0;
+    }
+
+    p {
+      line-height: 1.55;
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 6px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      max-width: 320px;
+      padding: 10px;
+      border: 1px solid #b8b8b8;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    input:focus {
+      outline: 3px solid rgba(255, 217, 26, 0.55);
+      border-color: #8b7600;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 11px 18px;
+      border: none;
+      border-radius: 5px;
+      background-color: #d52027;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #b91920;
+    }
+
+    #result {
+      margin-top: 18px;
+      padding: 14px;
+      background-color: #fff7cf;
+      border-left: 5px solid #ffd91a;
+      font-weight: bold;
+    }
+
+    .formula {
+      padding: 14px;
+      background-color: #f5f5f5;
+      border-left: 5px solid #d52027;
+      font-weight: bold;
+    }
+
+    @media (max-width: 560px) {
+      header {
+        padding: 14px 18px;
+      }
+
+      .header-content {
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .logo {
+        width: 110px;
+      }
+
+      h1 {
+        font-size: 1.55rem;
+      }
+
+      .subtitle {
+        font-size: 0.95rem;
+      }
+
+      section {
+        padding: 20px;
+      }
+
+      input,
+      button {
+        width: 100%;
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Asphalt Tonnage Calculator</h1>
+        <p class="subtitle">Estimate how many tons of asphalt are needed for a paving project.</p>
+      </div>
+
+      <img class="logo" src="hps-logo.png" alt="Huey P. Stockstill, LLC. logo">
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>Project Information</h2>
+
+      <label for="length">Length in feet:</label>
+      <input type="number" id="length" min="0" step="0.01">
+
+      <label for="width">Width in feet:</label>
+      <input type="number" id="width" min="0" step="0.01">
+
+      <label for="thickness">Thickness in inches:</label>
+      <input type="number" id="thickness" min="0" step="0.01">
+
+      <button type="button" onclick="calculateTons()">Calculate</button>
+
+      <p id="result">Result will appear here.</p>
+
+      <h2>Formula</h2>
+
+      <p class="formula">tons = length x width x thickness in feet x 145 / 2000</p>
+
+      <p>
+        This calculator uses 145 pounds per cubic foot as an estimated asphalt density.
+        Actual tonnage can vary, so this should be used as an estimate.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    function calculateTons() {
+      const length = Number(document.getElementById("length").value);
+      const width = Number(document.getElementById("width").value);
+      const thicknessInches = Number(document.getElementById("thickness").value);
+      const result = document.getElementById("result");
+
+      if (length <= 0 || width <= 0 || thicknessInches <= 0) {
+        result.textContent = "Please enter positive numbers for all fields.";
+        return;
+      }
+
+      const thicknessFeet = thicknessInches / 12;
+      const cubicFeet = length * width * thicknessFeet;
+      const pounds = cubicFeet * 145;
+      const tons = pounds / 2000;
+
+      result.textContent = "Estimated asphalt needed: " + tons.toFixed(2) + " tons";
+    }
+  </script>
+</body>
+</html>
